@@ -1,11 +1,16 @@
 const express = require("express");
-const faker = require("faker"); // Импортируем faker для генерации случайных данных
+const cors = require("cors"); // Для разрешения кросс-доменных запросов
+const faker = require("faker"); // Для генерации случайных данных
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000; // Используем порт из переменных окружения или 3000
 
-// Настройка маршрута для статики (папка src)
-app.use(express.static("src"));
+// Настройка CORS
+const corsOptions = {
+  origin: "*", // Разрешаем доступ с любых доменов
+  methods: ["GET"], // Разрешаем только GET-запросы
+};
+app.use(cors(corsOptions));
 
 // Маршрут для получения непрочитанных сообщений
 app.get("/messages/unread", (req, res) => {
